@@ -6,4 +6,6 @@ export const getSourcesFetch = (params) => fetch(`https://newsapi.org/v2/sources
     },
 }).then((response) => response.json());
 
-export const getSources = (params) => { return axios.get('/sources', { params }) }
+export const getSources = (params) => { return axios.get('sources', { params }) };
+export const getTops = (params) => { return axios.get('top-headlines', { params }) };
+export const getEverything = (params) => { return axios.get('everything', { params }) };

@@ -79,7 +79,7 @@ class ContactUs extends Component{
                 </div>
                 <button onClick={this.onSubmit}
                         disabled={this.validate()}
-                        type="submit" className="btn btn-primary">Submit</button>
+                        type="submit" className="btn btn-primary float-right">Submit</button>
             </form>
         )
     }

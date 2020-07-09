@@ -17,14 +17,6 @@ class Category extends Component {
         this.getCategoriesFromServer()
     }
 
-    // static getDerivedStateFromProps (nextProps, prevState) {
-    //     const nextCategory = nextProps.match.params.id;
-    //     if (nextCategory !== prevState.params.category) {
-    //         this.getCategoriesFromServer();
-    //         return { params: { ...prevState.params, category: nextCategory }}
-    //     }
-    // }
-
     getCategoriesFromServer = () => {
         const { match } = this.props;
         this.setState({ category: match.params.id });

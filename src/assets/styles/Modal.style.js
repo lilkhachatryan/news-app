@@ -4,7 +4,7 @@ export const ModalBackground = styled.div`
 	width: 100%;
 	height: 100%;
 	position: absolute;
-	background-color: transparent;
+	background-color: #e3f2fd4a;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -12,27 +12,28 @@ export const ModalBackground = styled.div`
 	bottom: 0;
 	left: 0;
 	right: 0;
+	z-index: 1499;
 `;
 
 export const ModalContainer = styled.div`
 	position: relative;
-	z-index: 10;
+	z-index: 1500;
 	width: 50%;
 	height: 80%;
 	background-color: #fff;
-	border: 0.1rem solid grey;
+	border: 0.1rem solid #80808059;
 	outline: 0;
 	display: flex;
 	flex-direction: column;
 	overflow-y: auto;
-	box-shadow: 3px 3px 3px solid grey;
+	box-shadow: 3px 3px #80808059;
+	border-radius: 10px;
 `;
 
 export const ModalHeader = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	border-bottom: 0.1rem solid grey;
 	padding: 2rem;
 `;
 
