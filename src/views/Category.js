@@ -10,7 +10,9 @@ class Category extends Component {
       params: {
           category: null
       },
-      show: false
+      show: false,
+      _loading: false,
+      _error: false
     };
 
     componentDidMount() {
@@ -19,10 +21,14 @@ class Category extends Component {
 
     getCategoriesFromServer = () => {
         const { match } = this.props;
-        this.setState({ category: match.params.id });
+        this.setState({ category: match.params.id, _loading: true });
+
         getSources({ category: match.params.id })
             .then(res => {
-                this.setState({ categories: res.data.sources })
+                this.setState({ categories: res.data.sources, _loading: false })
+            })
+            .catch((e) => {
+                this.setState({ _error: true, _loading: false })
             })
     };
 
@@ -34,31 +40,40 @@ class Category extends Component {
         this.setState({ show: true, category })
     };
 
+    formatDescription = (description) => {
+        return description.slice(0, 140) + (description.length > 140 ? '...' : '')
+    };
+
     render() {
-        const { match } = this.props;
-        const { categories, show, category } = this.state;
+        const { categories, show, category, _error, _loading } = this.state;
+
+        if (_loading) return (<div>Loading...</div>);
+
+        if (_error) return (<div>Something went wrong</div>);
 
         return (
             <>
-                <div>category id param - { match.params.id }</div>
+                <div>Category - {this.props.match.params.id}</div>
                 <hr />
                 <br />
                 {
                     categories.map(category => (
-                        <div key={category.id + 'category'}>
-                            <div>{ category.name }</div>
-                            <a href={category.url} target="_blank">{ category.url }</a>
-                            <div>{ category.description.slice(0, 40) + '...' }</div>
-                            <div onClick={() => this.handleOpenModal(category)}>see more</div>
-                            <hr />
-                            <hr />
-                            <hr />
+                        <div key={category.id + 'category'}
+                            className="jumbotron">
+                            <div className="mb-3">{ category.name }</div>
+                            <a href={category.url}
+                               target="_blank"
+                               rel="noopener noreferrer">{ category.url }</a>
+                            <div>{ this.formatDescription(category.description)}</div>
+                            <button onClick={() => this.handleOpenModal(category)}
+                                    type="button"
+                                    className="btn btn-link mt-4">See more</button>
                         </div>
                     ))
                 }
                 <Modal show={show}
                        onClose={this.handleCloseModal}
-                       title="Contact us">
+                       title="Category details">
                     <CategoryDetails category={category} />
                 </Modal>
             </>

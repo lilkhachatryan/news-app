@@ -60,7 +60,7 @@ class ContactUs extends Component{
                     <div className="form-group col-md-6">
                         <FormField value={this.state.fields.email}
                                    onChange={this.onInputChange}
-                                   validate={(val) => (isEmail(val) ? false : 'Invalid Email')}
+                                   validate={(val) => (!val ? 'Email Required' : isEmail(val) ? false : 'Invalid Email')}
                                    type="email"
                                    id="inputEmail"
                                    name="email"
@@ -79,7 +79,7 @@ class ContactUs extends Component{
                 </div>
                 <button onClick={this.onSubmit}
                         disabled={this.validate()}
-                        type="submit" className="btn btn-primary float-right">Submit</button>
+                        type="submit" className="btn btn-info float-right">Submit</button>
             </form>
         )
     }

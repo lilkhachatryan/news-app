@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import _ from "lodash"
 import { getSources } from "../../utils/endpoints";
-import { Link, Redirect } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
 import Modal from "./Modal";
 import ContactUs from "../ContactUs";
 
@@ -13,7 +13,8 @@ class Header extends Component {
         params: {
             pageSize: 4
         },
-        show: false
+        show: false,
+        search: ''
     };
 
 
@@ -31,7 +32,12 @@ class Header extends Component {
         this.setState({ isMobile: window.innerWidth <= 768, isOpen: false });
     };
 
+    onChangeSearch = () => {
+        this.props.history.push(`/search?q=${this.state.search}`);
+    };
+
     debouncedHandleResize =  _.debounce(this.handleResize, 500);
+    debounceSearch = _.debounce(this.onChangeSearch, 500);
 
     getSourcesFromServer = () => {
         getSources({ ...this.state.params })
@@ -51,34 +57,49 @@ class Header extends Component {
     };
 
     handleKeyDown = (e) => {
-        if (e.key === 'Enter') {
-            this.props.history.push(`/search?q=${e.target.value}`);
-        }
+        // if (e.key === 'Enter') {
+        //     this.props.history.push(`/search?q=${e.target.value}`);
+        // }
+        this.setState({ search: e.target.value }, this.debounceSearch);
+        // this.props.history.push(`/search?q=${e.target.value}`);
     };
 
     onToggleMenu = () => {
         this.setState((prevState => {
-            return { isOpen: !prevState.isOpen}
+            return { isOpen: !prevState.isOpen }
         }))
+    };
+
+    handleNavClick = () => {
+        this.setState({ isOpen: false })
     };
 
     renderCategories = () => {
         return this.state.sources.map(source => (
             <li key={ source.id }
                 className="nav-item">
-                <Link to={`/category/${source.category}`}
-                      className="nav-link">{ source.name }</Link>
+                <NavLink
+                    to={`/category/${source.category}`}
+                    onClick={this.handleNavClick}
+                    className="nav-link"
+                    activeClassName='active'>{ source.name }</NavLink>
             </li>
         ))
     };
 
     renderNavItems = () => {
-        const { isMobile, isOpen } = this.state;
+        const { isMobile, isOpen, search } = this.state;
 
         if (isMobile) {
             return (
                 <>
                     <ul className="navbar-nav">
+                        <li className="nav-item">
+                            <NavLink
+                                to="/home"
+                                className="nav-link"
+                                activeClassName='active'>Home</NavLink>
+                        </li>
                         { isOpen ? this.renderCategories() : null }
                     </ul>
                     <button onClick={this.onToggleMenu} className="navbar-toggler ml-auto align-self-baseline" type="button">
@@ -91,15 +112,22 @@ class Header extends Component {
         return (
             <>
                 <ul className="nav">
+                    <li className="nav-item">
+                        <NavLink
+                            to="/home"
+                            className="nav-link"
+                            activeClassName='active'>Home</NavLink>
+                    </li>
                     { this.renderCategories()}
                 </ul>
-                <input onKeyDown={this.handleKeyDown}
+                <input onChange={this.handleKeyDown}
+                       value={search}
                        type="text"
                        className="form-control mr-2"
                        id="search"
                        placeholder="Search"
                        style={{ width: 200 }}/>
-                <button onClick={this.handleOpenModal} type="button" className="btn btn-primary">Contact us</button>
+                <button onClick={this.handleOpenModal} type="button" className="btn btn-info">Contact us</button>
             </>
         )
     };
@@ -123,4 +151,4 @@ class Header extends Component {
     }
 }
 
-export default Header;
+export default withRouter(Header);

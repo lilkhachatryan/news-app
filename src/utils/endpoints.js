@@ -1,11 +1,14 @@
-import axios from "../plugins/axios";
+import http, { CancelToken }from "../plugins/axios";
 
-export const getSourcesFetch = (params) => fetch(`https://newsapi.org/v2/sources?apiKey=99416760de1f41a087206b4225ac3e81&pageSize=3&page=1`, {
-    headers: {
-        Accept: 'application/json',
-    },
-}).then((response) => response.json());
+let searchRequest;
 
-export const getSources = (params) => { return axios.get('sources', { params }) };
-export const getTops = (params) => { return axios.get('top-headlines', { params }) };
-export const getEverything = (params) => { return axios.get('everything', { params }) };
+export const getSources = (params) => { return http.get('sources', { params }) };
+export const getTops = (params) => { return http.get('top-headlines', { params }) };
+
+export const getEverything = (params) => {
+    if (searchRequest) {
+        searchRequest.cancel('One request at a time. Whilst user is typing')
+    }
+    searchRequest = CancelToken.source();
+    return http.get('everything', { params, cancelToken: searchRequest.token })
+};

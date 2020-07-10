@@ -44,3 +44,36 @@
 .text-error {
   color: #ff0000;
 }
+
+.nav {
+  min-width: 480px;
+  .nav-link {
+    color: #a3abb3!important;
+    &:hover {
+      color: #17a2b8!important;
+    }
+    &.active {
+      color: #138496!important;
+    }
+  }
+}
+
+a {
+  color: #17a2b8!important;
+  &:hover {
+    color: #138496!important;
+  }
+}
+
+.jumbotron a {
+  word-break: break-all;
+}
+
+.btn {
+  &.btn-link {
+    color: #17a2b8;
+    &:hover {
+      color: #138496;
+    }
+  }
+}

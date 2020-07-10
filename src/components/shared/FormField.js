@@ -62,21 +62,4 @@ class FormField extends Component {
     }
 }
 
-// FormField.propTypes = {
-//     placeholder: PropTypes.string,
-//     name: PropTypes.string.isRequired,
-//     id: PropTypes.string.isRequired,
-//     value: PropTypes.string,
-//     validate: PropTypes.func,
-//     onChange: PropTypes.func.isRequired,
-//     type: PropTypes.string,
-//     className: PropTypes.string,
-//     rows: PropTypes.number,
-//     fieldType: PropTypes.oneOf(['input', 'textarea'])
-// };
-//
-// FormField.defaultProps = {
-//     fieldType: 'input'
-// };
-
 export default FormField;

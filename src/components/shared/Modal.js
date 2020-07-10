@@ -1,23 +1,20 @@
 import React, { Component } from "react";
-import ReactDOM, { createPortal } from "react-dom";
+import { createPortal } from "react-dom";
 import { ModalBackground, ModalContainer, ModalHeader, ModalBody, ModalTitle } from '../../assets/styles/Modal.style';
 
 class Modal extends Component {
     render() {
-        const { show, title, onClose, children, ...rest } = this.props;
+        const { show, title, onClose, children } = this.props;
 
         const handleOutsideClick = (e) => {
-            // const domNode = ReactDOM.findDOMNode(ModalBackground);
-            // console.log('domNode', domNode);
-            // if (domNode && !domNode.contains(e.target)) {
-            //     alert('You clicked outside of me!');
-            //     // onClose()
-            // }
+            if (e.target.id === 'modal') {
+                onClose()
+            }
         };
 
         return show
         ? createPortal(
-                <ModalBackground onClick={handleOutsideClick}>
+                <ModalBackground onClick={handleOutsideClick} id="modal">
                     <ModalContainer ref="modal">
                         <ModalHeader>
                             <ModalTitle>{title}</ModalTitle>

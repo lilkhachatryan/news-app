@@ -1,10 +1,16 @@
 import styled from 'styled-components';
 
 export const ModalBackground = styled.div`
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    
+    overflow: hidden;
 	width: 100%;
-	height: 100%;
-	position: absolute;
-	background-color: #e3f2fd4a;
+	height: 100vh;
+	background-color: #969da24a;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -40,7 +46,6 @@ export const ModalHeader = styled.div`
 export const ModalTitle = styled.div`
 	font-size: 2.5rem;
 `;
-
 
 export const ModalBody = styled.div`
 	padding: 2rem;
